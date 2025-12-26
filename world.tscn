@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://ci1jw8ffya3mv"]
+[gd_scene load_steps=11 format=3 uid="uid://ci1jw8ffya3mv"]
 
 [ext_resource type="Script" uid="uid://cbyyi8mnxa8vm" path="res://scripts/view.gd" id="1_dwbse"]
 [ext_resource type="Environment" uid="uid://84jlvttiewx3" path="res://world-environment.tres" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://cor5wyggl3jpe" path="res://scripts/player.gd" id="2_fj7yv"]
 [ext_resource type="PackedScene" uid="uid://kod0awm1ha4o" path="res://Models/actors/gdquest_gobot/model/gobot.glb" id="3_036b0"]
 [ext_resource type="PackedScene" uid="uid://dfns02s5y62w6" path="res://prefabs/coin.tscn" id="5_036b0"]
+[ext_resource type="MeshLibrary" uid="uid://c6d27x25lv1e0" path="res://mesh_library.tres" id="6_dwbse"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dwbse"]
 
@@ -48,7 +49,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5055113, 0)
 shape = SubResource("BoxShape3D_dwbse")
 
 [node name="floor" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.58953476, 0)
 
 [node name="texture" type="MeshInstance3D" parent="floor"]
 mesh = SubResource("BoxMesh_f3sb7")
@@ -58,6 +58,7 @@ skeleton = NodePath("../..")
 shape = SubResource("BoxShape3D_fj7yv")
 
 [node name="coins" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="coin" parent="coins" instance=ExtResource("5_036b0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.276862, 1.1171038, 0)
@@ -76,3 +77,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.556596, 1.1171038, -10.471
 
 [node name="coin6" parent="coins" instance=ExtResource("5_036b0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.701135, 1.1171038, 5.756012)
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("6_dwbse")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(65532, 0, 1310721, 0, 65534, 1, 1, 3, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 2, 1, 0, 65535, 1, 1, 65535, 1, 65532, 2, 1310721, 65535, 1, 1, 65531, 3, 1310721, 65531, 2, 1310721, 65533, 0, 1310721, 65534, 0, 1310721, 65532, 1, 1310721, 65533, 3, 1310721, 65533, 2, 1310721, 65533, 1, 1310721, 65534, 1, 1, 65534, 2, 1310721, 65534, 6, 1310721, 65534, 3, 1310721, 0, 4, 1, 0, 3, 1, 0, 1, 1, 0, 2, 1, 65535, 4, 1310721, 65535, 3, 1310721, 65534, 5, 1310721, 65534, 7, 1310721, 65534, 8, 1310721, 65534, 4, 1, 65535, 5, 1310721, 65535, 6, 1310721, 65535, 7, 1310721, 65533, 5, 1310721, 65533, 4, 1310721, 65532, 3, 1310721, 65532, 6, 1310721, 65532, 7, 1310721, 65532, 8, 1310721, 131067, 65533, 1, 131069, 1, 1, 131070, 0, 1, 131070, 1, 1, 131069, 2, 1, 131068, 2, 1, 131069, 3, 1)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
