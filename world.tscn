@@ -1,11 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://ci1jw8ffya3mv"]
+[gd_scene load_steps=10 format=3 uid="uid://ci1jw8ffya3mv"]
 
 [ext_resource type="Script" uid="uid://cbyyi8mnxa8vm" path="res://scripts/view.gd" id="1_dwbse"]
 [ext_resource type="Environment" uid="uid://84jlvttiewx3" path="res://world-environment.tres" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://cor5wyggl3jpe" path="res://scripts/player.gd" id="2_fj7yv"]
 [ext_resource type="PackedScene" uid="uid://kod0awm1ha4o" path="res://Models/actors/gdquest_gobot/model/gobot.glb" id="3_036b0"]
-[ext_resource type="PackedScene" uid="uid://dpbbtj5j7vk42" path="res://barrel_2.tscn" id="3_aqk2v"]
-[ext_resource type="PackedScene" uid="uid://bap8isi2ruxyu" path="res://Models/assets/block-grass.glb" id="4_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://dfns02s5y62w6" path="res://prefabs/coin.tscn" id="5_036b0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dwbse"]
 
@@ -14,28 +13,10 @@ albedo_color = Color(0.45490196, 0.17254902, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_f3sb7"]
 material = SubResource("StandardMaterial3D_tlwt5")
-size = Vector3(10, 0.5, 10)
+size = Vector3(50, 0.5, 50)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fj7yv"]
-size = Vector3(10, 0.5, 10)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3sb7"]
-metallic = 1.0
-metallic_specular = 0.75
-roughness = 0.0
-
-[sub_resource type="BoxMesh" id="BoxMesh_fj7yv"]
-material = SubResource("StandardMaterial3D_f3sb7")
-size = Vector3(0.5, 3, 5)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_f3sb7"]
-size = Vector3(0.5, 3, 5)
-
-[sub_resource type="SphereMesh" id="SphereMesh_f3sb7"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_fj7yv"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_036b0"]
+size = Vector3(50, 0.5, 50)
 
 [node name="World" type="Node3D"]
 
@@ -67,7 +48,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5055113, 0)
 shape = SubResource("BoxShape3D_dwbse")
 
 [node name="floor" type="StaticBody3D" parent="."]
-transform = Transform3D(8, 0, 0, 0, 1.395, 0, 0, 0, 4.838, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.58953476, 0)
 
 [node name="texture" type="MeshInstance3D" parent="floor"]
 mesh = SubResource("BoxMesh_f3sb7")
@@ -76,45 +57,22 @@ skeleton = NodePath("../..")
 [node name="collision" type="CollisionShape3D" parent="floor"]
 shape = SubResource("BoxShape3D_fj7yv")
 
-[node name="wall" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.681742, 0, 0)
-metadata/_edit_group_ = true
+[node name="coins" type="Node3D" parent="."]
 
-[node name="texture" type="MeshInstance3D" parent="wall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7539592, 0)
-mesh = SubResource("BoxMesh_fj7yv")
-skeleton = NodePath("../..")
+[node name="coin" parent="coins" instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.276862, 1.1171038, 0)
 
-[node name="collision" type="CollisionShape3D" parent="wall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.754, 0)
-shape = SubResource("BoxShape3D_f3sb7")
+[node name="coin2" parent="coins" instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3467684, 1.1171038, -8.169955)
 
-[node name="ball" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.455931, 2.6517324, 10.82885)
-metadata/_edit_group_ = true
+[node name="coin3" parent="coins" instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.095851, 1.1171038, 12.378823)
 
-[node name="texture" type="MeshInstance3D" parent="ball"]
-mesh = SubResource("SphereMesh_f3sb7")
+[node name="coin4" parent="coins" instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.603635, 1.1171038, 8.503786)
 
-[node name="collision" type="CollisionShape3D" parent="ball"]
-shape = SubResource("SphereShape3D_fj7yv")
+[node name="coin5" parent="coins" instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.556596, 1.1171038, -10.471729)
 
-[node name="ball2" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.283994, 1.797626, -9.22744)
-metadata/_edit_group_ = true
-
-[node name="texture" type="MeshInstance3D" parent="ball2"]
-mesh = SubResource("SphereMesh_f3sb7")
-
-[node name="collision" type="CollisionShape3D" parent="ball2"]
-shape = SubResource("SphereShape3D_fj7yv")
-
-[node name="barrel2" parent="." instance=ExtResource("3_aqk2v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.235615, 0.35121953, -2.4977207)
-
-[node name="block-grass2" parent="." instance=ExtResource("4_aqk2v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15366864, 0.2723223, 9.005111)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="block-grass2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5003203, 0)
-shape = SubResource("BoxShape3D_036b0")
+[node name="coin6" parent="coins" instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.701135, 1.1171038, 5.756012)
