@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cety6nikj73yd"]
+
+[ext_resource type="PackedScene" uid="uid://kod0awm1ha4o" path="res://Models/actors/gdquest_gobot/model/gobot.glb" id="1_s5c3n"]
+
+[node name="gobot" instance=ExtResource("1_s5c3n")]
