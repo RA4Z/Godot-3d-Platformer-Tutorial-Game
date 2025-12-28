@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtoaxdvfp2e42"]
+
+[ext_resource type="Shader" uid="uid://ba6dam4fvddsu" path="res://shaders/water.gdshader" id="1_ewrtd"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4balm"]
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_a74av"]
+noise = SubResource("FastNoiseLite_4balm")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_45g8t"]
+render_priority = 0
+shader = ExtResource("1_ewrtd")
+shader_parameter/water_color = Color(0.019607844, 0.15686275, 0.21960784, 1)
+shader_parameter/uv_scale = 1.0
+shader_parameter/time_scale = 1.0
+shader_parameter/water_normal_noise = SubResource("NoiseTexture2D_a74av")
+shader_parameter/normal = 0.5
+shader_parameter/roughness = 0.25
+shader_parameter/abberation_r = Vector2(0, 0)
+shader_parameter/abberation_g = Vector2(0, 0)
+shader_parameter/abberation_b = Vector2(0, 0)
+shader_parameter/highlights_time_scale = 0.016
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8xkbt"]
+
+[node name="Water" type="Node3D"]
+
+[node name="water" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_45g8t")
+mesh = SubResource("PlaneMesh_8xkbt")
