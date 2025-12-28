@@ -11,6 +11,7 @@ var movement_velocity : Vector3
 var rotation_direction : float
 var knockbacked := false
 
+@onready var show_hud_timer: Timer = $HUD/coins_container/show_hud_timer
 @onready var coins_container: HBoxContainer = $HUD/coins_container
 var coins := 0
 
@@ -86,5 +87,11 @@ func _on_hurtbox_body_entered(body: Node3D) -> void:
 func collect_coins():
 	coins += 1
 	coins_container.update_coin(coins)
-	
-	
+	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(coins_container, "modulate:a", 1.0, 0.3)
+	show_hud_timer.start()
+
+
+func _on_show_hud_timer_timeout() -> void:
+	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(coins_container, "modulate:a", 0.0, 0.5)
