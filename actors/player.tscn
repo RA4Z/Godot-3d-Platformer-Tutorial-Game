@@ -1,19 +1,20 @@
-[gd_scene load_steps=12 format=3 uid="uid://cp1lpakos4yrl"]
+[gd_scene load_steps=13 format=3 uid="uid://cp1lpakos4yrl"]
 
 [ext_resource type="Script" uid="uid://cor5wyggl3jpe" path="res://scripts/player.gd" id="1_mvpqy"]
 [ext_resource type="PackedScene" uid="uid://kod0awm1ha4o" path="res://Models/actors/gdquest_gobot/model/gobot.glb" id="2_1yqc4"]
 [ext_resource type="PackedScene" uid="uid://dnl802qwdkxof" path="res://Models/blender_assets/godot_coin.glb" id="3_1yqc4"]
 [ext_resource type="Script" uid="uid://cy8mx8jm1nqof" path="res://scripts/coins_container.gd" id="3_kjkj0"]
 [ext_resource type="FontFile" uid="uid://c6bln1xotidci" path="res://Models/fonts/LuckiestGuy-Regular.ttf" id="4_esgq3"]
+[ext_resource type="Texture2D" uid="uid://bcflfh5kayelc" path="res://life_hud.png" id="4_tue77"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dwbse"]
 size = Vector3(0.5, 0.64674073, 0.5)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ic0uy"]
-size = Vector3(0.82447433, 1.137207, 0.6480408)
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_mvpqy"]
 radius = 0.46528372
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ic0uy"]
+size = Vector3(0.82447433, 1.137207, 0.86611176)
 
 [sub_resource type="Animation" id="Animation_esgq3"]
 resource_name = "rotate_coin_hud"
@@ -86,18 +87,18 @@ metadata/_edit_group_ = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33611277, 0)
 shape = SubResource("BoxShape3D_dwbse")
 
+[node name="head_collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0045446157, 0.9790441, 0)
+shape = SubResource("SphereShape3D_mvpqy")
+
 [node name="hurtbox" type="Area3D" parent="."]
 collision_layer = 0
 collision_mask = 2
 
 [node name="collision" type="CollisionShape3D" parent="hurtbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.021837234, 0.64839745, -0.012802124)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.021837234, 0.64839745, -0.0024986267)
 shape = SubResource("BoxShape3D_ic0uy")
 debug_color = Color(0.99607843, 0, 0, 0.41960785)
-
-[node name="head_collision" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0045446157, 0.9790441, 0)
-shape = SubResource("SphereShape3D_mvpqy")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -109,51 +110,87 @@ grow_vertical = 2
 
 [node name="coins_container" type="HBoxContainer" parent="HUD"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 10
 anchor_right = 1.0
-offset_left = -241.0
-offset_right = -37.0
-offset_bottom = 96.0
-grow_horizontal = 0
+offset_bottom = 82.0
+grow_horizontal = 2
 script = ExtResource("3_kjkj0")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/coins_container"]
+[node name="life_indicator" type="SubViewportContainer" parent="HUD/coins_container"]
 custom_minimum_size = Vector2(82, 82)
 layout_mode = 2
 size_flags_horizontal = 0
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="HUD/coins_container/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="HUD/coins_container/life_indicator"]
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
 gui_disable_input = true
-size = Vector2i(82, 96)
+size = Vector2i(82, 82)
 render_target_update_mode = 4
 
-[node name="coin_holder" type="Node3D" parent="HUD/coins_container/SubViewportContainer/SubViewport"]
+[node name="life_holder" type="Node3D" parent="HUD/coins_container/life_indicator/SubViewport"]
 
-[node name="godot_coin" parent="HUD/coins_container/SubViewportContainer/SubViewport/coin_holder" instance=ExtResource("3_1yqc4")]
+[node name="life_icon" type="Sprite3D" parent="HUD/coins_container/life_indicator/SubViewport/life_holder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+texture = ExtResource("4_tue77")
 
-[node name="anim" type="AnimationPlayer" parent="HUD/coins_container/SubViewportContainer/SubViewport/coin_holder/godot_coin"]
+[node name="Camera3D" type="Camera3D" parent="HUD/coins_container/life_indicator/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.048855)
+current = true
+fov = 20.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="HUD/coins_container/life_indicator/SubViewport"]
+light_color = Color(0.5184105, 0.5155038, 1.92523e-07, 1)
+
+[node name="life_label" type="Label" parent="HUD/coins_container"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 11
+theme_override_fonts/font = ExtResource("4_esgq3")
+theme_override_font_sizes/font_size = 64
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="coin_indicator" type="SubViewportContainer" parent="HUD/coins_container"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+size_flags_horizontal = 10
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="HUD/coins_container/coin_indicator"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+gui_disable_input = true
+size = Vector2i(82, 82)
+render_target_update_mode = 4
+
+[node name="coin_holder" type="Node3D" parent="HUD/coins_container/coin_indicator/SubViewport"]
+
+[node name="godot_coin" parent="HUD/coins_container/coin_indicator/SubViewport/coin_holder" instance=ExtResource("3_1yqc4")]
+
+[node name="anim" type="AnimationPlayer" parent="HUD/coins_container/coin_indicator/SubViewport/coin_holder/godot_coin"]
 libraries = {
 &"": SubResource("AnimationLibrary_tue77")
 }
 autoplay = "rotate_coin_hud"
 speed_scale = 0.3
 
-[node name="Camera3D" type="Camera3D" parent="HUD/coins_container/SubViewportContainer/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="HUD/coins_container/coin_indicator/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.048855)
 current = true
 fov = 20.0
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="HUD/coins_container/SubViewportContainer/SubViewport"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="HUD/coins_container/coin_indicator/SubViewport"]
 light_color = Color(0.5184105, 0.5155038, 1.92523e-07, 1)
 
 [node name="coin_label" type="Label" parent="HUD/coins_container"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 8
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 11
 theme_override_fonts/font = ExtResource("4_esgq3")
@@ -166,3 +203,4 @@ vertical_alignment = 1
 
 [connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="timeout" from="HUD/coins_container/show_hud_timer" to="." method="_on_show_hud_timer_timeout"]
+[connection signal="timeout" from="HUD/coins_container/show_hud_timer" to="HUD/coins_container" method="_on_show_hud_timer_timeout"]

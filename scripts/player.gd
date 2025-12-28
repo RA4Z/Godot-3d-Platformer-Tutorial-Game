@@ -6,6 +6,7 @@ const JUMP_VELOCITY = 10.0
 @onready var animator = get_node("gobot/AnimationPlayer") as AnimationPlayer
 
 @export var view : Node3D
+@export var health := 3
 var gravity = 0
 var movement_velocity : Vector3
 var rotation_direction : float
@@ -36,7 +37,8 @@ func handle_input(delta):
 	var input := Vector3.ZERO
 	input.x = Input.get_axis("move_left", "move_right")
 	input.z = Input.get_axis("move_forward", "move_backward")
-	input = input.rotated(Vector3.UP, view.rotation.y).normalized()
+	if view:
+		input = input.rotated(Vector3.UP, view.rotation.y).normalized()
 	if not knockbacked:
 		velocity = input * SPEED * delta
 		if Vector2(velocity.z, velocity.x).length() > 0:
@@ -70,11 +72,16 @@ func jump(delta):
 
 
 func knockback(impact_point: Vector3, force: Vector3) -> void:
+	coins_container.update_life(health)
 	force.y = abs(force.y)
 	velocity = force.limit_length(15.0)
 
 
 func _on_hurtbox_body_entered(body: Node3D) -> void:
+	health -= 1
+	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(coins_container, "modulate:a", 1.0, 0.3)
+	show_hud_timer.start()
 	var body_collision = (body.global_position - global_position)
 	var force = -body_collision
 	force *= 10.0
