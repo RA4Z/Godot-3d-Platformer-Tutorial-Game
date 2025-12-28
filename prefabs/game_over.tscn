@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=3 uid="uid://ww73ek0ifeif"]
+
+[ext_resource type="Shader" uid="uid://d4cbhgt6trtoc" path="res://shaders/grayscale.gdshader" id="1_puky0"]
+[ext_resource type="Script" uid="uid://c6u20l1gaaacd" path="res://scripts/game_over.gd" id="1_s76ig"]
+[ext_resource type="FontFile" uid="uid://c6bln1xotidci" path="res://Models/fonts/LuckiestGuy-Regular.ttf" id="2_s76ig"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8lptw"]
+shader = ExtResource("1_puky0")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ogpm4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rh4cr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0sgit"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aginv"]
+
+[sub_resource type="Theme" id="Theme_e4kg1"]
+default_font = ExtResource("2_s76ig")
+default_font_size = 48
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/font_focus_color = Color(0.7176471, 0.7176471, 0.003921569, 1)
+Button/colors/font_hover_color = Color(0.7176471, 0.7176471, 0.003921569, 1)
+Button/colors/font_hover_pressed_color = Color(0.10980392, 0.6117647, 0.9254902, 1)
+Button/styles/focus = SubResource("StyleBoxEmpty_ogpm4")
+Button/styles/hover = SubResource("StyleBoxEmpty_rh4cr")
+Button/styles/normal = SubResource("StyleBoxEmpty_0sgit")
+Button/styles/pressed = SubResource("StyleBoxEmpty_aginv")
+
+[node name="GameOver" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_s76ig")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_8lptw")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="menu_gameover" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -121.5
+offset_top = -51.0
+offset_right = 121.5
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_e4kg1")
+
+[node name="retry_btn" type="Button" parent="menu_gameover"]
+layout_mode = 2
+text = "Retry"
+
+[node name="quit_btn" type="Button" parent="menu_gameover"]
+layout_mode = 2
+text = "Quit Game"
+
+[connection signal="pressed" from="menu_gameover/retry_btn" to="." method="_on_retry_btn_pressed"]
+[connection signal="pressed" from="menu_gameover/quit_btn" to="." method="_on_quit_btn_pressed"]

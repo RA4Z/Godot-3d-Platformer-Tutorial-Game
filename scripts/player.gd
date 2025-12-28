@@ -3,10 +3,11 @@ extends CharacterBody3D
 
 const SPEED = 200.0
 const JUMP_VELOCITY = 10.0
-@onready var animator = get_node("gobot/AnimationPlayer") as AnimationPlayer
+@onready var animator = get_node("gobot_new/AnimationPlayer") as AnimationPlayer
 
 @export var view : Node3D
 @export var health := 3
+var is_dead := false
 var gravity = 0
 var movement_velocity : Vector3
 var rotation_direction : float
@@ -46,20 +47,26 @@ func handle_input(delta):
 		rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 10)
 	
 func handle_animations():
-	if is_on_floor():
-		if abs(velocity.x) > 1 or abs(velocity.z) > 1:
-			animator.play("Run", 0.3)
+	if not is_dead:
+		if is_on_floor():
+			if abs(velocity.x) > 1 or abs(velocity.z) > 1:
+				animator.play("Run", 0.3)
+			else:
+				animator.play("Idle", 0.3)
 		else:
-			animator.play("Idle", 0.3)
+			animator.play("Jump", 0.3)
+		
+		if knockbacked:
+			animator.play("Fall", 0.3)
+		
+		if not is_on_floor() and gravity > 2:
+			animator.play("Fall", 0.3)
 	else:
-		animator.play("Jump", 0.3)
-	
-	if knockbacked:
-		animator.play("Fall", 0.3)
-	
-	if not is_on_floor() and gravity > 2:
-		animator.play("Fall", 0.3)
-	
+		animator.play("Dead", 0.3)
+		await animator.animation_finished
+		get_parent().get_node("GameOver").visible = true
+		get_tree().paused = true
+
 func apply_gravity(delta):
 	if not is_on_floor():
 		gravity += 25 * delta
@@ -78,7 +85,10 @@ func knockback(impact_point: Vector3, force: Vector3) -> void:
 
 
 func _on_hurtbox_body_entered(body: Node3D) -> void:
-	health -= 1
+	if health > 0:
+		health -= 1
+	else:
+		is_dead = true
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(coins_container, "modulate:a", 1.0, 0.3)
 	show_hud_timer.start()
