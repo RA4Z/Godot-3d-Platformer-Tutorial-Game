@@ -18,5 +18,7 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "player":
-		queue_free()
+		if body.has_method("collect_coins"):
+			body.collect_coins()
+			queue_free()
 		

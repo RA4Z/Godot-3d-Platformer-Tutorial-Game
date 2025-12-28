@@ -11,6 +11,9 @@ var movement_velocity : Vector3
 var rotation_direction : float
 var knockbacked := false
 
+@onready var coins_container: HBoxContainer = $HUD/coins_container
+var coins := 0
+
 func _physics_process(delta: float) -> void:
 	if not knockbacked:
 		handle_input(delta)
@@ -79,3 +82,9 @@ func _on_hurtbox_body_entered(body: Node3D) -> void:
 	knockbacked = true
 	await get_tree().create_timer(0.3).timeout
 	knockbacked = false
+
+func collect_coins():
+	coins += 1
+	coins_container.update_coin(coins)
+	
+	
