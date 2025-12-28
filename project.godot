@@ -15,6 +15,10 @@ run/main_scene="uid://ci1jw8ffya3mv"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[global_group]
+
+breakables="A group with breakables objects"
+
 [input]
 
 camera_left={

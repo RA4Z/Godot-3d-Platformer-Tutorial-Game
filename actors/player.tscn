@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cp1lpakos4yrl"]
+[gd_scene load_steps=14 format=3 uid="uid://cp1lpakos4yrl"]
 
 [ext_resource type="Script" uid="uid://cor5wyggl3jpe" path="res://scripts/player.gd" id="1_mvpqy"]
 [ext_resource type="PackedScene" uid="uid://084ch8134ni4" path="res://Models/actors/gobot_new.glb" id="2_33vod"]
@@ -76,6 +76,9 @@ _data = {
 &"RESET": SubResource("Animation_kjkj0"),
 &"rotate_coin_hud": SubResource("Animation_esgq3")
 }
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tue77"]
+size = Vector3(0.51831055, 0.076171875, 0.5047302)
 
 [node name="player" type="CharacterBody3D"]
 collision_mask = 7
@@ -202,6 +205,14 @@ vertical_alignment = 1
 
 [node name="show_hud_timer" type="Timer" parent="HUD/coins_container"]
 
+[node name="stomp_area" type="Area3D" parent="."]
+collision_mask = 2
+
+[node name="collision" type="CollisionShape3D" parent="stomp_area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00012207031, 0.037109375, -0.0011138916)
+shape = SubResource("BoxShape3D_tue77")
+
 [connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="timeout" from="HUD/coins_container/show_hud_timer" to="." method="_on_show_hud_timer_timeout"]
 [connection signal="timeout" from="HUD/coins_container/show_hud_timer" to="HUD/coins_container" method="_on_show_hud_timer_timeout"]
+[connection signal="body_entered" from="stomp_area" to="." method="_on_stomp_area_body_entered"]

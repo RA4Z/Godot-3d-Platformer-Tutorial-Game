@@ -112,3 +112,9 @@ func collect_coins():
 func _on_show_hud_timer_timeout() -> void:
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(coins_container, "modulate:a", 0.0, 0.5)
+
+
+func _on_stomp_area_body_entered(body: Node3D) -> void:
+	if body.is_in_group("breakables"):
+		body.destroy_crate()
+		gravity = -JUMP_VELOCITY
