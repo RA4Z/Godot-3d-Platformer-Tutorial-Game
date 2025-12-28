@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtoaxdvfp2e42"]
+[gd_scene load_steps=7 format=3 uid="uid://dtoaxdvfp2e42"]
 
+[ext_resource type="Script" uid="uid://by4cqymqqlp0f" path="res://scripts/water.gd" id="1_4balm"]
 [ext_resource type="Shader" uid="uid://ba6dam4fvddsu" path="res://shaders/water.gdshader" id="1_ewrtd"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4balm"]
@@ -27,6 +28,7 @@ shader_parameter/highlights_time_scale = 0.016
 [sub_resource type="PlaneMesh" id="PlaneMesh_8xkbt"]
 
 [node name="Water" type="Node3D"]
+script = ExtResource("1_4balm")
 
 [node name="water" type="MeshInstance3D" parent="."]
 material_override = SubResource("ShaderMaterial_45g8t")
