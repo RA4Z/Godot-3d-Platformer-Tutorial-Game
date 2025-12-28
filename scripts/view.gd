@@ -9,6 +9,7 @@ extends Node3D
 @export var zoom_speed = 10
 
 @export_group("Rotation")
+@export var mouse_sensitivity = 0.25
 @export var rotation_speed = 120
 @export var min_rotation_x = -80
 @export var max_rotation_x = -10
@@ -19,15 +20,10 @@ var zoom = 8
 @onready var camera = $Camera
 
 func _ready():
-	
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	camera_rotation = rotation_degrees # Initial rotation
-	
-	pass
 
 func _physics_process(delta):
-	
-	# Set position and rotation to targets
-	
 	self.position = self.position.lerp(target.position, delta * 4)
 	rotation_degrees = rotation_degrees.lerp(camera_rotation, delta * 6)
 	
@@ -55,6 +51,11 @@ func handle_input(delta):
 	zoom = clamp(zoom, zoom_maximum, zoom_minimum)
 
 func _input(event):
+	if event is InputEventMouseMotion:
+		camera_rotation.y -= event.relative.x * mouse_sensitivity
+		camera_rotation.x -= event.relative.y * mouse_sensitivity
+		camera_rotation.x = clamp(camera_rotation.x, min_rotation_x, max_rotation_x)
+		
 	if event is InputEventMouseButton:
 		if event.is_pressed():
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
